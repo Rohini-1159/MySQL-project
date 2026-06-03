@@ -1,0 +1,70 @@
+Create database hotel booking;
+use hotel booking;
+create table Customers_details  (
+    customer_id int primary key,
+    customer_name varchar(60),
+    phone varchar(20),
+    city varchar(50)
+);
+Create table Rooms(
+    room_id int primary key,
+    room_type varchar(50),
+    price_per_day int,
+    room_status varchar(10)
+);
+Create table Bookings(
+    booking_id int primary key,
+    customer_id int,
+    room_id int,
+    check_in date,
+    check_out date,
+    total_amount int,
+     foreign  key (customer_id) REFERENCES Customers_details (customer_id),
+    foreign key (room_id) REFERENCES Rooms(room_id)
+);
+Insert into Customers_Details values
+(1, 'Rohini', '6877898678', 'Hyderabad'),
+(2, 'Hasini', '6989867853', 'Mumbai'),
+(3, 'Sneha', '7896547565', 'Chennai'),
+(4, 'Reddyhemalatha', '9988776655', 'Bangalore'),
+(5, 'Hema', '600100756', 'Pune');
+Insert into Rooms values
+(101, 'Single', 1000, 'Available'),
+(102, 'Double', 2000, 'Booked'),
+(103, 'Deluxe', 3500, 'Available'),
+(104, 'Suite', 5000, 'Booked'),
+(105, 'AC Room', 2500, 'Available');
+Insert into Bookings values
+(1, 1, 102, '2026-05-20', '2026-05-22',4000 ),
+(2, 2, 104, '2026-05-18', '2026-05-21',15000 ),
+(3, 3, 101, '2026-05-25', '2026-05-27',2000 );
+Select*from Customers_details;
+Select*from Rooms;
+Select*from Bookings;
+Select*from Rooms where room_status='Booked';
+Select Customers_details.customer_name,
+       Rooms.room_type,
+       Bookings.check_in,
+       Bookings.check_out,
+       Bookings.total_amount
+from Bookings
+JOIN Customers_details
+on Bookings.customer_id=Customers_details.customer_id
+JOIN Rooms 
+on Bookings.room_id=Rooms.room_id;
+Select * from Rooms Where price_per_day > 1200;
+update Rooms set room_status='Booked'Where room_id=103;
+Select room_id,room_status from Rooms Where room_id=103;
+Delete from Bookings Where booking_id=3;
+Select * from Bookings;
+Create VIEW Booking_details As 
+Select Customers_Details.customer_name,
+       Rooms.room_type,
+       Bookings.total_amount
+from Bookings
+JOIN Customers_Details
+on Bookings.customer_id = Customers_Details.customer_id
+JOIN Rooms
+on Bookings.room_id = Rooms.room_id;
+Select * from Booking_details;
+SHOW data bases;
