@@ -1,0 +1,104 @@
+Create Database LibraryManagement;
+USE LibraryManagement;
+Create table Members(
+    member_id int primary key Auto_Increment,
+    member_name varchar(60),
+    member_department varchar(20),
+    phone varchar(15),
+    email varchar(25),
+    join_date date
+);
+Create table Books(
+    book_id int primary key Auto_Increment,
+    title varchar(50) not null,
+    author varchar(60),
+    category varchar(30),
+    price decimal(6,2),
+    available_copies int
+  );
+Create table Library(
+    library_id int primary key Auto_Increment,
+    library_name varchar(30),
+    shift_time varchar(20)
+);
+Create table Issue_Books(
+    issue_id int primary key Auto_Increment,
+    member_id int,
+    book_id int,
+    library_id int,
+    issue_date date,
+    return_date date,
+    Foreign key (member_id) References Members(member_id),
+    Foreign key(book_id) References Books(book_id),
+    Foreign key (library_id) References library(library_id)
+);
+Insert into Members(member_name,member_department,phone,email,join_date) values
+('Rohini', 'CSE', '6786786789', 'roh@gmail.com', '2026-05-10'),
+('Hasini', 'ECE', '9898767645', 'hasini@gmail.com', '2026-04-15'),
+('Reddy Hemalatha', 'AIDS', '6778899876', 'hemalatha@gmail.com', '2026-03-05');
+Insert into Books(title,author,category,price,available_copies)values
+('Python Programming', 'Guido van rassum', 'Programming', 600, 6),
+('Java Programming', 'GJames Gosling', 'Programming', 800, 8),
+('MySQL', 'Korth', 'Database', 700, 5);
+Insert into Library(library_name,shift_time)values
+('Hariprasad', 'Morning'),
+('Menaka', 'Evening');
+Insert into Issue_Books(member_id,book_id,library_id,issue_date,return_date)values
+(1, 2, 1, '2026-05-01', '2025-05-10'),
+(2, 1, 2, '2026-05-03', '2025-05-12');
+Select * from Members;
+Select * from Books;
+Select * from library;
+Select * from Issue_Books;
+# here i can update the some details that is available_copies
+
+Update Books Set available_copies = 10 Where book_id = 1;
+
+Select * from Books Where  book_id = 1;
+
+
+# here i want to delete some details 
+
+Delete  from Members Where member_id = 3;
+
+Select * from Members;
+
+
+# here the want to check the query for finding the books in Programming
+
+Select * from Books Where category = 'Programming';
+
+
+ # here we crete a join query
+
+  
+
+Select
+    Members.member_name,
+    Books.title,
+    Library.library_name,
+    Issue_Books.issue_date,
+    Issue_Books.return_date
+
+from Issue_Books
+Join Members
+on Issue_Books.member_id = Members.member_id
+Join Books
+on Issue_Books.book_id = Books.book_id
+join Library
+on Issue_Books.library_id = Library.library_id;
+## here i want to write code  count the total books  using count
+ Select count(*)  As total_books from Books;
+
+ ## Now i want to find the total no.of books 
+
+ Select max(price) As highest_price from Books;
+##now i want create View 
+
+ Create View Available_Books As Select title,author,available_copies
+
+ from Books
+ Where available_copies >0;
+
+ Select * from Available_Books;
+SHOW databases;
